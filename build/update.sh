@@ -44,9 +44,13 @@ fi
 
 # Update version
 sed -i 's/\(<code id="version">\)[^<]*\(<\/code>\)/\1uglify-js '"$VERSION"'\2/' index.html
+sed -i 's/\(registry\.npmmirror\.com\/\)[\s\S]+?\(\/files\)/\1uglify-js\/'"$VERSION"'\2/gI' index.html
 
+
+rm -rf uglify
 
 # Commit and push
+git config user.name actionBot
+git config user.email github-actions@github.com
 git add index.html
-git add uglify
 git commit -m "Update to uglify-js $VERSION"
