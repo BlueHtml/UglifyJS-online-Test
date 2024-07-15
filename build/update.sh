@@ -18,8 +18,8 @@ echo "Latest version is $VERSION"
 
 
 # Download this version
-curl -fL "https://github.com/mishoo/UglifyJS/archive/refs/tags/v$VERSION.zip" -o uglify.zip
-unzip -o uglify.zip
+curl -fLs "https://github.com/mishoo/UglifyJS/archive/refs/tags/v$VERSION.zip" -o uglify.zip
+unzip -oq uglify.zip
 dir_name=$(unzip -Z -1 uglify.zip | head -n 1)
 mv "$dir_name" uglify
 
@@ -45,13 +45,19 @@ fi
 # Update version
 sed -i 's/\(<code id="version">\)[^<]*\(<\/code>\)/\1uglify-js '"$VERSION"'\2/' index.html
 CDN="//registry.npmmirror.com/uglify-js/$VERSION/files"
-sed -i 's/\(<script src=")uglify/\1'"$CDN"'/gI' index.html
+sed -i 's/\(<script src="\)uglify/\1'"$CDN"'/gI' index.html
 
 
 rm -rf uglify
 
 # Commit and push
-git config user.name actionBot
-git config user.email github-actions@github.com
-git add index.html
-git commit -m "Update to uglify-js $VERSION"
+if (git status --porcelain || echo err) | grep -q .; then
+    git config user.name actionBot
+    git config user.email github-actions@github.com
+    git add index.html
+    git commit -m "Update to uglify-js $VERSION" -q
+    git push
+    echo "Update to uglify-js $VERSION"
+else
+    echo "Already on the latest version, no update needed"
+fi
