@@ -44,7 +44,8 @@ fi
 
 # Update version
 sed -i 's/\(<code id="version">\)[^<]*\(<\/code>\)/\1uglify-js '"$VERSION"'\2/' index.html
-sed -i 's/\(registry\.npmmirror\.com\/\)[\s\S]+?\(\/files\)/\1uglify-js\/'"$VERSION"'\2/gI' index.html
+CDN="//registry.npmmirror.com/uglify-js/$VERSION/files"
+sed -i 's/\(<script src=")uglify/\1'"$CDN"'/gI' index.html
 
 
 rm -rf uglify
