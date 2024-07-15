@@ -20,6 +20,8 @@ echo "Latest version is $VERSION"
 # Download this version
 curl -fL "https://github.com/mishoo/UglifyJS/archive/refs/tags/v$VERSION.zip" -o uglify.zip
 unzip -o uglify.zip
+dir_name=$(unzip -Z -1 uglify.zip | head -n 1)
+mv "$dir_name" uglify
 
 
 # Update default options
