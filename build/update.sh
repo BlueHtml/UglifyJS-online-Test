@@ -48,17 +48,10 @@ CDN="//registry.npmmirror.com/uglify-js/$VERSION/files"
 CDN="${CDN//\//\\\/}"
 sed -i 's/\(<script src="\)uglify/\1'"$CDN"'/gI' index.html
 
-
 rm -rf uglify
 
-# Commit and push
-if (git status --porcelain || echo err) | grep -q .; then
-    git config user.name actionBot
-    git config user.email github-actions@github.com
-    git add index.html
-    git commit -m "Update to uglify-js $VERSION" -q
-    git push
-    echo "Update to uglify-js $VERSION"
-else
-    echo "Already on the latest version, no update needed"
-fi
+
+# Publish
+mkdir public
+cp favicon.ico index.html script.js style.css public
+echo "Update to uglify-js $VERSION"
