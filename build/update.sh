@@ -48,5 +48,5 @@ sed -i 's/\(<code id="version">\)[^<]*\(<\/code>\)/\1uglify-js '"$VERSION"'\2/' 
 
 # Publish
 mkdir public
-cp favicon.ico index.html script.js style.css uglify public
+cp -r favicon.ico index.html script.js style.css uglify public
 echo "Update to uglify-js $VERSION"
